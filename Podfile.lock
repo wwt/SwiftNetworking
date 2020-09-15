@@ -1,0 +1,26 @@
+PODS:
+  - Cuckoo (1.3.2):
+    - Cuckoo/Swift (= 1.3.2)
+  - Cuckoo/Swift (1.3.2)
+  - Fakery (4.1.1)
+  - Swinject (2.7.1)
+
+DEPENDENCIES:
+  - Cuckoo
+  - Fakery
+  - Swinject
+
+SPEC REPOS:
+  trunk:
+    - Cuckoo
+    - Fakery
+    - Swinject
+
+SPEC CHECKSUMS:
+  Cuckoo: 57f71c6616b6b08cd9fe27f803da056fb619ff3e
+  Fakery: d3380c4aa1efe7631c0831d7e26aa9db4491f014
+  Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
+
+PODFILE CHECKSUM: 49ac865d83606ca4b6356d97785131a59698a7d4
+
+COCOAPODS: 1.9.3
