@@ -8,10 +8,16 @@
 
 import Foundation
 import XCTest
+import Combine
 
 @testable import NetworkExample
 
 class IdentityServiceTests: XCTestCase {
+    var ongoingCalls = Set<AnyCancellable>()
+    
+    override func setUp() {
+        ongoingCalls.removeAll()
+    }
     
     func testIdentityServiceUsesURLSessionDefaultConfiguration() {
         XCTAssertEqual(API.IdentityService().urlSession, URLSession.shared)
@@ -22,10 +28,10 @@ class IdentityServiceTests: XCTestCase {
                                        statusCode: 200,
                                        result: .success(validProfileJSON.data(using: .utf8)!))
         
-        var api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService(urlSession: response.session)
         
         var called = false
-        api.fetchProfile { (result) in
+        api.fetchProfile.sink { (result) in
             switch result {
                 case .success(let profile):
                     XCTAssertEqual(profile.firstName, "Joe")
@@ -43,7 +49,7 @@ class IdentityServiceTests: XCTestCase {
                     XCTFail(error.localizedDescription)
             }
             called = true
-        }
+        }.store(in: &ongoingCalls)
         
         waitUntil(0.3, called)
         XCTAssert(called)
@@ -54,17 +60,17 @@ class IdentityServiceTests: XCTestCase {
                                        statusCode: 200,
                                        result: .success(Data("Invalid".utf8)))
         
-        var api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService(urlSession: response.session)
         
         var called = false
-        api.fetchProfile { (result) in
+        api.fetchProfile.sink { (result) in
             switch result {
                 case .success(_): XCTFail("Should not have a successful profile")
                 case .failure(let error):
                     XCTAssertEqual(API.IdentityService.FetchProfileError.apiBorked, error)
             }
             called = true
-        }
+        }.store(in: &ongoingCalls)
         
         waitUntil(0.3, called)
         XCTAssert(called)
@@ -82,17 +88,17 @@ class IdentityServiceTests: XCTestCase {
                                          statusCode: 200,
                                          result: .success(validProfileJSON.data(using: .utf8)!))
         
-        var api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService(urlSession: response.session)
         
         var called = false
-        api.fetchProfile { (result) in
+        api.fetchProfile.sink { (result) in
             switch result {
                 case .success(let profile): XCTAssertEqual(profile.firstName, "Joe")
                 case .failure(_):
                     XCTFail("Should not have an error")
             }
             called = true
-        }
+        }.store(in: &ongoingCalls)
         
         waitUntil(called)
         XCTAssert(called)
@@ -108,17 +114,17 @@ class IdentityServiceTests: XCTestCase {
                                          statusCode: 200,
                                          result: .success(validProfileJSON.data(using: .utf8)!))
         
-        var api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService(urlSession: response.session)
         
         var called = false
-        api.fetchProfile { (result) in
+        api.fetchProfile.sink { (result) in
             switch result {
                 case .success(_): XCTFail("Should not have successful response")
                 case .failure(let error):
                     XCTAssertEqual(API.IdentityService.FetchProfileError.apiBorked, error)
             }
             called = true
-        }
+        }.store(in: &ongoingCalls)
         
         waitUntil(called)
         XCTAssert(called)

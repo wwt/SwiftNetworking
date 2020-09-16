@@ -12,11 +12,15 @@ import Combine
 protocol APIProtocol {
     typealias RequestModifier = ((URLRequest) -> URLRequest)
     
-    var baseURL:String { get set }
-    var urlSession:URLSession { get set }
+    var baseURL:String { get }
+    var urlSession:URLSession { get }
 }
 
 extension APIProtocol {
+    var urlSession: URLSession {
+        URLSession.shared
+    }
+    
     func get(endpoint:String, requestModifier:@escaping RequestModifier = { $0 }) -> URLSession.ErasedDataTaskPublisher {
         guard let url = URL(string: "\(baseURL)")?.appendingPathComponent(endpoint) else {
             return Fail<URLSession.DataTaskPublisher.Output, Error>(error: API.URLError.unableToCreateURL).eraseToAnyPublisher()

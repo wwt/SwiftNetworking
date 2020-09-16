@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 import Swinject
 
 class ProfileViewController {
@@ -15,11 +16,17 @@ class ProfileViewController {
     
     var nameLabelText:String = ""
     
+    var currentNetworkCalls = Set<AnyCancellable>()
+    
     func fetchProfile() {
-        identityService?.fetchProfile {
+        identityService?.fetchProfile.sink {
             if case .success(let profile) = $0 {
                 self.nameLabelText = profile.firstName
             }
-        }
+        }.store(in: &currentNetworkCalls)
+    }
+    
+    func viewWillDissapear() {
+        currentNetworkCalls.removeAll() //destroy any ongoing calls if the screen is transitioning
     }
 }

@@ -18,18 +18,16 @@ class ProfileViewControllerTests: XCTestCase {
         let mock = MockIdentityServiceProtocol()
             .registerIn(container: API.container)
         let expectedProfile = User.Profile.createForTests()
-                
+        
         stub(mock) { stub in
-            when(stub.fetchProfile(any())).then { (callback) in
-                callback(.success(expectedProfile))
-            }
+            _ = when(stub.fetchProfile.get.thenReturn(Result.Publisher(Result<User.Profile, API.IdentityService.FetchProfileError>.success(expectedProfile)).eraseToAnyPublisher()))
         }
         
         let testViewController = ProfileViewController()
         
         testViewController.fetchProfile()
         
-        verify(mock, times(1)).fetchProfile(any())
+        verify(mock, times(1)).fetchProfile.get()
         XCTAssertEqual(testViewController.nameLabelText, expectedProfile.firstName)
     }
 }
