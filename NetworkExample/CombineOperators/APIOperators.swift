@@ -11,7 +11,7 @@ import Combine
 
 extension URLSession.ErasedDataTaskPublisher {
     
-    func unwrapResultFromAPI() -> Self {
+    func unwrapResultJSONFromAPI() -> Self {
         map {
             if let json = try? JSONSerialization.jsonObject(with: $0.data, options: []) as? [String:Any],
                 let result = (json["result"] as? [String:Any]),

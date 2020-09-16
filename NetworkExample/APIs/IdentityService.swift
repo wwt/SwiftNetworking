@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-protocol IdentityServiceProtocol: APIProtocol {
+protocol IdentityServiceProtocol: RESTAPIProtocol {
     var fetchProfile: AnyPublisher<Result<User.Profile, API.IdentityService.FetchProfileError>, Never> { get }
 }
 
@@ -24,7 +24,7 @@ extension IdentityServiceProtocol {
                 .acceptJSON()
                 .sendJSON()
         })  .retryOnceOnUnauthorizedResponse(chainedRequest: refresh)
-            .unwrapResultFromAPI()
+            .unwrapResultJSONFromAPI()
             .map { $0.data }
             .decodeFromJson(User.Profile.self)
             .receive(on: DispatchQueue.main)
@@ -37,7 +37,7 @@ extension IdentityServiceProtocol {
         post(endpoint: "/auth/refresh", body: try? JSONSerialization.data(withJSONObject: ["refreshToken":User.refreshToken], options: []), requestModifier: {
             $0.acceptJSON()
                 .sendJSON()
-        }).unwrapResultFromAPI()
+        }).unwrapResultJSONFromAPI()
             .tryMap { v -> URLSession.ErasedDataTaskPublisher.Output in
                 let json = try? JSONSerialization.jsonObject(with: v.data, options: []) as? [String:Any]
                 guard let accessToken = json?["accessToken"] as? String else {

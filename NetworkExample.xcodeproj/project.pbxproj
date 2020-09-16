@@ -11,7 +11,7 @@
 		1D4423D02437185A0008FFA9 /* UserProfileConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4423CF2437185A0008FFA9 /* UserProfileConvenience.swift */; };
 		1D6FE14C242FBA0500F5A341 /* NetworkExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6FE142242FBA0400F5A341 /* NetworkExample.framework */; };
 		1D6FE153242FBA0500F5A341 /* NetworkExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6FE145242FBA0400F5A341 /* NetworkExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1D6FE15D242FBB1900F5A341 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE15C242FBB1900F5A341 /* APIProtocol.swift */; };
+		1D6FE15D242FBB1900F5A341 /* RESTAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE15C242FBB1900F5A341 /* RESTAPIProtocol.swift */; };
 		1D6FE15F242FBB8B00F5A341 /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE15E242FBB8B00F5A341 /* APITests.swift */; };
 		1D6FE164242FC07300F5A341 /* StubAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE163242FC07300F5A341 /* StubAPIResponse.swift */; };
 		1D6FE166242FC7E500F5A341 /* DefaultContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE165242FC7E500F5A341 /* DefaultContainer.swift */; };
@@ -62,7 +62,7 @@
 		1D6FE146242FBA0400F5A341 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D6FE14B242FBA0500F5A341 /* NetworkExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6FE152242FBA0500F5A341 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1D6FE15C242FBB1900F5A341 /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
+		1D6FE15C242FBB1900F5A341 /* RESTAPIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTAPIProtocol.swift; sourceTree = "<group>"; };
 		1D6FE15E242FBB8B00F5A341 /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
 		1D6FE163242FC07300F5A341 /* StubAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubAPIResponse.swift; sourceTree = "<group>"; };
 		1D6FE165242FC7E500F5A341 /* DefaultContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultContainer.swift; sourceTree = "<group>"; };
@@ -197,7 +197,7 @@
 		1D6FE169243011BF00F5A341 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				1D6FE15C242FBB1900F5A341 /* APIProtocol.swift */,
+				1D6FE15C242FBB1900F5A341 /* RESTAPIProtocol.swift */,
 				1D6FE16A243011CC00F5A341 /* IdentityService.swift */,
 				1DDA395D24303E7D00602D37 /* BaseAPI.swift */,
 			);
@@ -521,7 +521,7 @@
 				1DB613E324347C7600687C87 /* DependencyInjected.swift in Sources */,
 				1DF8489B2431389E00FABA6B /* Address.swift in Sources */,
 				CA9210D62510715300CAC1DA /* APIOperators.swift in Sources */,
-				1D6FE15D242FBB1900F5A341 /* APIProtocol.swift in Sources */,
+				1D6FE15D242FBB1900F5A341 /* RESTAPIProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

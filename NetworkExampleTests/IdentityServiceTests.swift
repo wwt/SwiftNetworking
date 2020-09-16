@@ -16,6 +16,7 @@ class IdentityServiceTests: XCTestCase {
     var ongoingCalls = Set<AnyCancellable>()
     
     override func setUp() {
+        ongoingCalls.forEach { $0.cancel() }
         ongoingCalls.removeAll()
     }
     

@@ -13,7 +13,7 @@ import Combine
 @testable import NetworkExample
 
 extension API {
-    struct JSONPlaceHolder: APIProtocol {
+    struct JSONPlaceHolder: RESTAPIProtocol {
         var baseURL: String = "https://jsonplaceholder.typicode.com"
         var urlSession: URLSession = URLSession.shared
     }
@@ -21,6 +21,11 @@ extension API {
 
 class APITests:XCTestCase {
     var subscribers = Set<AnyCancellable>()
+    
+    override func setUp() {
+        subscribers.forEach { $0.cancel() }
+        subscribers.removeAll()
+    }
     
     func testAPIMakesAGETRequest() {
         let json = """
