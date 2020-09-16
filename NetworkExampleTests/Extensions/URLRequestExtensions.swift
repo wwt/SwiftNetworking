@@ -17,7 +17,7 @@ extension URLRequest {
         case delete
     }
     
-    init(_ method:HTTPMethod, urlString: String, body:Data? = nil) {
+    init(_ method:HTTPMethod, urlString: String) {
         let url = URL(string: urlString)
         self.init(url: url!)
         httpMethod = {
@@ -29,7 +29,6 @@ extension URLRequest {
             case .delete: return "DELETE"
             }
         }()
-        httpBody = body
     }
     
     func bodySteamAsData() -> Data? {

@@ -85,10 +85,13 @@ class APITests:XCTestCase {
         let json = UUID().uuidString.data(using: .utf8)!
         let sentBody = try? JSONSerialization.data(withJSONObject: ["" : ""], options: [])
         let response = StubAPIResponse(request: .init(.post,
-                                                      urlString: "https://jsonplaceholder.typicode.com/posts",
-                                                      body: sentBody),
+                                                      urlString: "https://jsonplaceholder.typicode.com/posts"),
                                        statusCode: 201,
                                        result: .success(json))
+            .thenVerifyRequest { request in
+                XCTAssertEqual(request.httpMethod, "POST")
+                XCTAssertEqual(request.bodySteamAsData(), sentBody)
+            }
         
         let api = API.JSONPlaceHolder(urlSession: response.session)
         
@@ -133,11 +136,14 @@ class APITests:XCTestCase {
         let json = UUID().uuidString.data(using: .utf8)!
         let sentBody = try? JSONSerialization.data(withJSONObject: ["" : ""], options: [])
         let response = StubAPIResponse(request: .init(.put,
-                                                      urlString: "https://jsonplaceholder.typicode.com/posts/1",
-                                                      body: sentBody),
+                                                      urlString: "https://jsonplaceholder.typicode.com/posts/1"),
                                        statusCode: 200,
                                        result: .success(json))
-        
+            .thenVerifyRequest { request in
+                XCTAssertEqual(request.httpMethod, "PUT")
+                XCTAssertEqual(request.bodySteamAsData(), sentBody)
+            }
+
         let api = API.JSONPlaceHolder(urlSession: response.session)
         
         var PUTFinished = false
@@ -181,11 +187,14 @@ class APITests:XCTestCase {
         let json = UUID().uuidString.data(using: .utf8)!
         let sentBody = try? JSONSerialization.data(withJSONObject: ["" : ""], options: [])
         let response = StubAPIResponse(request: .init(.patch,
-                                                      urlString: "https://jsonplaceholder.typicode.com/posts/1",
-                                                      body: sentBody),
+                                                      urlString: "https://jsonplaceholder.typicode.com/posts/1"),
                                        statusCode: 200,
                                        result: .success(json))
-        
+            .thenVerifyRequest { request in
+                XCTAssertEqual(request.httpMethod, "PATCH")
+                XCTAssertEqual(request.bodySteamAsData(), sentBody)
+            }
+
         let api = API.JSONPlaceHolder(urlSession: response.session)
         
         var PATCHFinished = false

@@ -62,6 +62,14 @@ class StubAPIResponse {
         return self
     }
     
+    @discardableResult func thenVerifyRequest(_ requestVerifier:@escaping ((URLRequest) -> Void)) -> Self {
+        guard let req = requests.first else { return self }
+        Container.default.register(((URLRequest) -> Void).self, name: req.containerName) { _ in
+            requestVerifier
+        }
+        return self
+    }
+    
     var session:URLSession {
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [NetworkRequestCapturer.self]
@@ -102,13 +110,10 @@ public final class NetworkRequestCapturer: URLProtocol {
             self.client?.urlProtocol(self, didFailWithError: error)
         }
         
-        if let expectedRequest = Container.default.resolve(URLRequest.self, name: request.containerName) {
-            XCTAssertEqual(request.httpMethod, expectedRequest.httpMethod)
-            if let expectedBody = expectedRequest.httpBody {
-                XCTAssertEqual(request.bodySteamAsData(), expectedBody)
-            }
+        if let verifier = Container.default.resolve(((URLRequest) -> Void).self, name: request.containerName) {
+            verifier(request)
         }
-        
+
         self.client?.urlProtocolDidFinishLoading(self)
     }
     

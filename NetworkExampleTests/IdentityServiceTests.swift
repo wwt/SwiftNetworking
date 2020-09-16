@@ -81,14 +81,23 @@ class IdentityServiceTests: XCTestCase {
         let response = StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
                                        statusCode: 401)
             .thenRespondWith(request: .init(.post,
-                                            urlString: "\(API.IdentityService().baseURL)/auth/refresh",
-                                            body: try? JSONSerialization.data(withJSONObject: ["refreshToken":User.refreshToken], options: [])),
+                                            urlString: "\(API.IdentityService().baseURL)/auth/refresh"),
                              statusCode: 200,
                              result: .success(validRefreshResponse))
+            .thenVerifyRequest { request in
+                XCTAssertEqual(request.httpMethod, "POST")
+                XCTAssertEqual(request.bodySteamAsData(), try? JSONSerialization.data(withJSONObject: ["refreshToken":User.refreshToken], options: []))
+            }
             .thenRespondWith(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
                              statusCode: 200,
                              result: .success(validProfileJSON.data(using: .utf8)!))
-        
+            .thenVerifyRequest { request in
+                XCTAssertEqual(request.httpMethod, "GET")
+                XCTAssertEqual(request.value(forHTTPHeaderField: "Accept"), "application/json")
+                XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
+                XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(User.accessToken)")
+            }
+
         let api = API.IdentityService(urlSession: response.session)
         
         var called = false
