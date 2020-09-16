@@ -72,7 +72,7 @@ class RetryOnTests:XCTestCase {
         }
         
         var called = 0
-
+        
         let refresh = Just(1)
             .setFailureType(to: Err.self)
             .tryMap { i -> Int in
@@ -82,13 +82,13 @@ class RetryOnTests:XCTestCase {
             .eraseToAnyPublisher()
         
         Just(1)
-        .setFailureType(to: Err.self)
-        .tryMap { _ -> Int in
-            throw Err.e1
-        }.mapError { $0 as! Err}
-        .retryOn(Err.e1, retries: 1, chainedRequest: refresh)
-        .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-        .store(in: &subscribers)
+            .setFailureType(to: Err.self)
+            .tryMap { _ -> Int in
+                throw Err.e1
+            }.mapError { $0 as! Err}
+            .retryOn(Err.e1, retries: 1, chainedRequest: refresh)
+            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+            .store(in: &subscribers)
         
         waitUntil(called > 0)
         XCTAssertEqual(called, 1)
@@ -103,14 +103,14 @@ class RetryOnTests:XCTestCase {
         var called = 0
         
         Just(1)
-        .setFailureType(to: Err.self)
-        .tryMap { _ -> Int in
-            called += 1
-            throw Err.e1
-        }.mapError { $0 as! Err}
-        .retryOn(Err.e2, retries: 1)
-        .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-        .store(in: &subscribers)
+            .setFailureType(to: Err.self)
+            .tryMap { _ -> Int in
+                called += 1
+                throw Err.e1
+            }.mapError { $0 as! Err}
+            .retryOn(Err.e2, retries: 1)
+            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+            .store(in: &subscribers)
         
         waitUntil(called > 0)
         XCTAssertEqual(called, 1)

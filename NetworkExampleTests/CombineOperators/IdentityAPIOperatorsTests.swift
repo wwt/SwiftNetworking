@@ -33,9 +33,9 @@ class IdentityAPIOperatorsTests: XCTestCase {
             .sink(receiveCompletion: { (completion) in
                 called = true
                 switch completion {
-                    case .finished: XCTFail("Should not have finished successfully")
-                    case .failure(let err):
-                        XCTAssert(err is API.AuthorizationError)
+                case .finished: XCTFail("Should not have finished successfully")
+                case .failure(let err):
+                    XCTAssert(err is API.AuthorizationError)
                 }
             }) { _ in }
             .store(in: &subscribers)
@@ -67,9 +67,9 @@ class IdentityAPIOperatorsTests: XCTestCase {
             .retryOnceOnUnauthorizedResponse()
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: XCTFail("Should not have finished successfully")
-                    case .failure(let err):
-                        XCTAssert(err is API.AuthorizationError)
+                case .finished: XCTFail("Should not have finished successfully")
+                case .failure(let err):
+                    XCTAssert(err is API.AuthorizationError)
                 }
             }) { _ in }
             .store(in: &subscribers)
@@ -103,9 +103,9 @@ class IdentityAPIOperatorsTests: XCTestCase {
             .retryOnceOnUnauthorizedResponse()
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: finishCalled = true
-                    case .failure(_):
-                        XCTFail("Should not have finished with error")
+                case .finished: finishCalled = true
+                case .failure(_):
+                    XCTFail("Should not have finished with error")
                 }
             }) { _ in }
             .store(in: &subscribers)
@@ -133,9 +133,9 @@ class IdentityAPIOperatorsTests: XCTestCase {
             .retryOnceOnUnauthorizedResponse()
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: finishCalled = true
-                    case .failure(_):
-                        XCTFail("Should not have finished with error")
+                case .finished: finishCalled = true
+                case .failure(_):
+                    XCTFail("Should not have finished with error")
                 }
             }) { _ in }
             .store(in: &subscribers)

@@ -36,7 +36,7 @@ extension RESTAPIProtocol {
         request.httpBody = body
         return createPublisher(for: request, requestModifier: requestModifier)
     }
-
+    
     func post(endpoint:String, body: Data?, requestModifier:@escaping RequestModifier = { $0 }) -> URLSession.ErasedDataTaskPublisher {
         guard let url = URL(string: "\(baseURL)")?.appendingPathComponent(endpoint) else {
             return Fail<URLSession.DataTaskPublisher.Output, Error>(error: API.URLError.unableToCreateURL).eraseToAnyPublisher()
@@ -70,6 +70,6 @@ extension RESTAPIProtocol {
         Just(request).setFailureType(to: Error.self)
             .flatMap { request -> URLSession.ErasedDataTaskPublisher in
                 return self.urlSession.erasedDataTaskPublisher(for: requestModifier(request))
-        }.eraseToAnyPublisher()
+            }.eraseToAnyPublisher()
     }
 }

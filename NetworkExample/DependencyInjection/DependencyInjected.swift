@@ -22,12 +22,12 @@ public struct DependencyInjected<Value> {
         self.name = name
         container = API.container
     }
-
+    
     public init(wrappedValue value: Value? = nil, container containerGetter:@autoclosure () -> Container, name:String? = nil) {
         self.name = name
         container = containerGetter()
     }
-
+    
     public lazy var wrappedValue: Value? = {
         container.resolve(Value.self, name: name)
     }()

@@ -17,20 +17,20 @@ extension IdentityServiceProtocol {
     var baseURL: String {
         "https://some.identityservice.com/api"
     }
-
+    
     var fetchProfile: AnyPublisher<Result<User.Profile, API.IdentityService.FetchProfileError>, Never> {
         self.get(endpoint: "/me", requestModifier: {
             $0.addBearerAuthorization(token: User.accessToken)
                 .acceptJSON()
                 .sendJSON()
-        })  .retryOnceOnUnauthorizedResponse(chainedRequest: refresh)
-            .unwrapResultJSONFromAPI()
-            .map { $0.data }
-            .decodeFromJson(User.Profile.self)
-            .receive(on: DispatchQueue.main)
-            .map(Result.success)
-            .catch { error in Just(.failure((error as? API.IdentityService.FetchProfileError) ?? .apiBorked)) }
-            .eraseToAnyPublisher()
+        }).retryOnceOnUnauthorizedResponse(chainedRequest: refresh)
+        .unwrapResultJSONFromAPI()
+        .map { $0.data }
+        .decodeFromJson(User.Profile.self)
+        .receive(on: DispatchQueue.main)
+        .map(Result.success)
+        .catch { error in Just(.failure((error as? API.IdentityService.FetchProfileError) ?? .apiBorked)) }
+        .eraseToAnyPublisher()
     }
     
     private var refresh:URLSession.ErasedDataTaskPublisher {
@@ -38,13 +38,13 @@ extension IdentityServiceProtocol {
             $0.acceptJSON()
                 .sendJSON()
         }).unwrapResultJSONFromAPI()
-            .tryMap { v -> URLSession.ErasedDataTaskPublisher.Output in
-                let json = try? JSONSerialization.jsonObject(with: v.data, options: []) as? [String:Any]
-                guard let accessToken = json?["accessToken"] as? String else {
-                    throw API.AuthorizationError.unauthorized
-                }
-                User.accessToken = accessToken
-                return v
+        .tryMap { v -> URLSession.ErasedDataTaskPublisher.Output in
+            let json = try? JSONSerialization.jsonObject(with: v.data, options: []) as? [String:Any]
+            guard let accessToken = json?["accessToken"] as? String else {
+                throw API.AuthorizationError.unauthorized
+            }
+            User.accessToken = accessToken
+            return v
         }.eraseToAnyPublisher()
     }
 }
@@ -54,7 +54,7 @@ extension API {
         enum FetchProfileError: Error {
             case apiBorked
         }
-
+        
         var urlSession: URLSession = URLSession.shared
     }
 }

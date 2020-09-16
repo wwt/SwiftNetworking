@@ -48,13 +48,13 @@ class APITests:XCTestCase {
         api.get(endpoint: "posts")
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: GETFinished = true
-                    case .failure: XCTFail("Call should succeed")
+                case .finished: GETFinished = true
+                case .failure: XCTFail("Call should succeed")
                 }
             }) { (value) in
                 XCTAssertEqual((value.response as? HTTPURLResponse)?.statusCode, 200)
                 XCTAssertEqual(String(data: value.data, encoding: .utf8), String(data: json, encoding: .utf8))
-        }.store(in: &subscribers)
+            }.store(in: &subscribers)
         waitUntil(GETFinished)
         XCTAssert(GETFinished)
     }
@@ -71,9 +71,9 @@ class APITests:XCTestCase {
             .sink(receiveCompletion: { (completion) in
                 GETFinished = true
                 switch completion {
-                    case .finished: XCTFail("Should have thrown error")
-                    case .failure(let error):
-                        XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
+                case .finished: XCTFail("Should have thrown error")
+                case .failure(let error):
+                    XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
                 }
             }, receiveValue: { _ in })
             .store(in: &subscribers)
@@ -96,13 +96,13 @@ class APITests:XCTestCase {
         api.post(endpoint: "posts", body: sentBody)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: POSTFinished = true
-                    case .failure: XCTFail("Call should succeed")
+                case .finished: POSTFinished = true
+                case .failure: XCTFail("Call should succeed")
                 }
             }) { (value) in
                 XCTAssertEqual((value.response as? HTTPURLResponse)?.statusCode, 201)
                 XCTAssertEqual(String(data: value.data, encoding: .utf8), String(data: json, encoding: .utf8))
-        }.store(in: &subscribers)
+            }.store(in: &subscribers)
         waitUntil(POSTFinished)
         XCTAssert(POSTFinished)
     }
@@ -119,9 +119,9 @@ class APITests:XCTestCase {
             .sink(receiveCompletion: { (completion) in
                 POSTFinished = true
                 switch completion {
-                    case .finished: XCTFail("Should have thrown error")
-                    case .failure(let error):
-                        XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
+                case .finished: XCTFail("Should have thrown error")
+                case .failure(let error):
+                    XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
                 }
             }, receiveValue: { _ in })
             .store(in: &subscribers)
@@ -144,13 +144,13 @@ class APITests:XCTestCase {
         api.put(endpoint: "posts/1", body: sentBody)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: PUTFinished = true
-                    case .failure: XCTFail("Call should succeed")
+                case .finished: PUTFinished = true
+                case .failure: XCTFail("Call should succeed")
                 }
             }) { (value) in
                 XCTAssertEqual((value.response as? HTTPURLResponse)?.statusCode, 200)
                 XCTAssertEqual(String(data: value.data, encoding: .utf8), String(data: json, encoding: .utf8))
-        }.store(in: &subscribers)
+            }.store(in: &subscribers)
         waitUntil(PUTFinished)
         XCTAssert(PUTFinished)
     }
@@ -167,9 +167,9 @@ class APITests:XCTestCase {
             .sink(receiveCompletion: { (completion) in
                 PUTFinished = true
                 switch completion {
-                    case .finished: XCTFail("Should have thrown error")
-                    case .failure(let error):
-                        XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
+                case .finished: XCTFail("Should have thrown error")
+                case .failure(let error):
+                    XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
                 }
             }, receiveValue: { _ in })
             .store(in: &subscribers)
@@ -192,13 +192,13 @@ class APITests:XCTestCase {
         api.patch(endpoint: "posts/1", body: sentBody)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: PATCHFinished = true
-                    case .failure: XCTFail("Call should succeed")
+                case .finished: PATCHFinished = true
+                case .failure: XCTFail("Call should succeed")
                 }
             }) { (value) in
                 XCTAssertEqual((value.response as? HTTPURLResponse)?.statusCode, 200)
                 XCTAssertEqual(String(data: value.data, encoding: .utf8), String(data: json, encoding: .utf8))
-        }.store(in: &subscribers)
+            }.store(in: &subscribers)
         waitUntil(PATCHFinished)
         XCTAssert(PATCHFinished)
     }
@@ -215,9 +215,9 @@ class APITests:XCTestCase {
             .sink(receiveCompletion: { (completion) in
                 PATCHFinished = true
                 switch completion {
-                    case .finished: XCTFail("Should have thrown error")
-                    case .failure(let error):
-                        XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
+                case .finished: XCTFail("Should have thrown error")
+                case .failure(let error):
+                    XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
                 }
             }, receiveValue: { _ in })
             .store(in: &subscribers)
@@ -237,13 +237,13 @@ class APITests:XCTestCase {
         api.delete(endpoint: "posts/1")
             .sink(receiveCompletion: { (completion) in
                 switch completion {
-                    case .finished: DELETEFinished = true
-                    case .failure: XCTFail("Call should succeed")
+                case .finished: DELETEFinished = true
+                case .failure: XCTFail("Call should succeed")
                 }
             }) { (value) in
                 XCTAssertEqual((value.response as? HTTPURLResponse)?.statusCode, 200)
                 XCTAssertEqual(String(data: value.data, encoding: .utf8), String(data: json, encoding: .utf8))
-        }.store(in: &subscribers)
+            }.store(in: &subscribers)
         waitUntil(DELETEFinished)
         XCTAssert(DELETEFinished)
     }
@@ -260,9 +260,9 @@ class APITests:XCTestCase {
             .sink(receiveCompletion: { (completion) in
                 DELETEFinished = true
                 switch completion {
-                    case .finished: XCTFail("Should have thrown error")
-                    case .failure(let error):
-                        XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
+                case .finished: XCTFail("Should have thrown error")
+                case .failure(let error):
+                    XCTAssertEqual((error as? API.URLError), API.URLError.unableToCreateURL)
                 }
             }, receiveValue: { _ in })
             .store(in: &subscribers)

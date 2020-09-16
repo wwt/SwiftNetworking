@@ -21,7 +21,7 @@ class ProfileViewControllerTests: XCTestCase {
         let expectedProfile = User.Profile.createForTests()
         stub(mock) { stub in
             _ = when(stub.fetchProfile.get
-                .thenReturn(Result.Publisher(.success(expectedProfile)).eraseToAnyPublisher()))
+                        .thenReturn(Result.Publisher(.success(expectedProfile)).eraseToAnyPublisher()))
         }
         let testViewController = ProfileViewController()
         
@@ -34,17 +34,16 @@ class ProfileViewControllerTests: XCTestCase {
     func testFetchingProfileDoesNotRetainAStrongReference() {
         let mock = MockIdentityServiceProtocol()
             .registerIn(container: API.container)
-        let expectedProfile = User.Profile.createForTests()
         stub(mock) { stub in
             _ = when(stub.fetchProfile.get
-                .thenReturn(Result.Publisher(.success(expectedProfile))
-                                            .delay(for: .seconds(10), scheduler: RunLoop.main)
-                                            .eraseToAnyPublisher()))
+                        .thenReturn(Result.Publisher(.success(User.Profile.createForTests()))
+                                        .delay(for: .seconds(10), scheduler: RunLoop.main)
+                                        .eraseToAnyPublisher()))
         }
         var testViewController:ProfileViewController? = ProfileViewController()
         weak var ref = testViewController
-        testViewController?.fetchProfile()
         
+        testViewController?.fetchProfile()
         testViewController = nil
         
         verify(mock, times(1)).fetchProfile.get()

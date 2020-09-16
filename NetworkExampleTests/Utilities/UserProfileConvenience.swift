@@ -13,10 +13,10 @@ import Fakery
 
 extension User.Profile {
     static func createForTests(firstName:String = Faker().name.firstName(),
-         createdDate:Date = Date(),
-         termsAccepted:Bool = true,
-         isVerified:Bool = true,
-         email:String = Faker().internet.email()) -> User.Profile {
+                               createdDate:Date = Date(),
+                               termsAccepted:Bool = true,
+                               isVerified:Bool = true,
+                               email:String = Faker().internet.email()) -> User.Profile {
         return try! JSONDecoder().decode(User.Profile.self, from: Data("""
         {
             "self": {

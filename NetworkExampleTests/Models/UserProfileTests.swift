@@ -52,10 +52,10 @@ class UserProfileTests: XCTestCase {
             XCTAssert(error is DecodingError)
             if let err = error as? DecodingError {
                 switch (err) {
-                    case .typeMismatch(let type, let context):
-                        XCTAssert(type is Date.Type)
-                        XCTAssertEqual(User.Profile.CodingKeys.createdDate.rawValue, context.codingPath.first?.stringValue)
-                    default: XCTFail("Wrong error type, expected typeMismatch")
+                case .typeMismatch(let type, let context):
+                    XCTAssert(type is Date.Type)
+                    XCTAssertEqual(User.Profile.CodingKeys.createdDate.rawValue, context.codingPath.first?.stringValue)
+                default: XCTFail("Wrong error type, expected typeMismatch")
                 }
             }
         }
@@ -80,10 +80,10 @@ class UserProfileTests: XCTestCase {
             XCTAssert(error is DecodingError)
             if let err = error as? DecodingError {
                 switch (err) {
-                    case .typeMismatch(let type, let context):
-                        XCTAssert(type is Date.Type)
-                        XCTAssertEqual(User.Profile.SelfKeys.dateOfBirth.rawValue, context.codingPath.first?.stringValue)
-                    default: XCTFail("Wrong error type, expected typeMismatch")
+                case .typeMismatch(let type, let context):
+                    XCTAssert(type is Date.Type)
+                    XCTAssertEqual(User.Profile.SelfKeys.dateOfBirth.rawValue, context.codingPath.first?.stringValue)
+                default: XCTFail("Wrong error type, expected typeMismatch")
                 }
             }
         }

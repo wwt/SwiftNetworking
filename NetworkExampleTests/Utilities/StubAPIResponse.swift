@@ -77,7 +77,7 @@ public final class NetworkRequestCapturer: URLProtocol {
     public override class func canInit(with request: URLRequest) -> Bool { true }
     
     public override class func canInit(with task: URLSessionTask) -> Bool { true }
-
+    
     public override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
     
     public override func startLoading() {
@@ -91,26 +91,26 @@ public final class NetworkRequestCapturer: URLProtocol {
         if case .success(let data) = result {
             self.client?.urlProtocol(self, didLoad: data)
         }
-
+        
         if let response = Container.default.resolve(URLResponse.self, name: request.containerName) {
             self.client?.urlProtocol(self,
                                      didReceive: response,
                                      cacheStoragePolicy: .notAllowed)
         }
-
+        
         if case .failure(let error) = result {
             self.client?.urlProtocol(self, didFailWithError: error)
         }
-
+        
         if let expectedRequest = Container.default.resolve(URLRequest.self, name: request.containerName) {
             XCTAssertEqual(request.httpMethod, expectedRequest.httpMethod)
             if let expectedBody = expectedRequest.httpBody {
                 XCTAssertEqual(request.bodySteamAsData(), expectedBody)
             }
         }
-
+        
         self.client?.urlProtocolDidFinishLoading(self)
     }
-
+    
     public override func stopLoading() { }
 }

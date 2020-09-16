@@ -59,7 +59,7 @@ extension Publishers {
             self.upstream
                 .catch { e -> AnyPublisher<Output, Failure> in
                     guard (e as? ErrorType) == self.error,
-                        self.retries > 0 else {
+                          self.retries > 0 else {
                         return Fail<Output, Failure>(error: e).eraseToAnyPublisher()
                     }
                     if let chainedRequest = self.chainedRequest {
@@ -68,8 +68,8 @@ extension Publishers {
                         }.eraseToAnyPublisher()
                     }
                     return self.upstream.retryOn(self.error, retries:self.retries - 1).eraseToAnyPublisher()
-            }
-            .subscribe(subscriber)
+                }
+                .subscribe(subscriber)
         }
     }
 }

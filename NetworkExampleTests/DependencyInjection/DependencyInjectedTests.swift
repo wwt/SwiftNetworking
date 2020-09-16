@@ -16,7 +16,7 @@ class Car:Vehicle { }
 class Motorcycle:Vehicle { }
 
 class DependencyInjectionTests: XCTestCase {
-
+    
     override func tearDown() {
         API.container.removeAll()
     }
@@ -32,7 +32,7 @@ class DependencyInjectionTests: XCTestCase {
         XCTAssert(Thing().vehicle is Car)
         XCTAssert((Thing().vehicle as? Car) === car)
     }
-
+    
     func testPropertyWrapperWithSpecificName() {
         let car = Car()
         API.container.register(Vehicle.self, name: "car1") { _ in car }
@@ -59,7 +59,7 @@ class DependencyInjectionTests: XCTestCase {
         
         XCTAssert(Thing().vehicle is Car)
     }
-
+    
     func testPropertyWrapperShouldBeLazy() {
         var callbackCalled = 0
         API.container.register(Vehicle.self) { _ in
