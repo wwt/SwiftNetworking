@@ -35,7 +35,7 @@ class IdentityServiceTests: XCTestCase {
             switch result {
                 case .success(let profile):
                     XCTAssertEqual(profile.firstName, "Joe")
-                    XCTAssertEqual(profile.lastName, "Zztest")
+                    XCTAssertEqual(profile.lastName, "Blow")
                     XCTAssertEqual(profile.preferredName, "Zarathustra, Maestro of Madness")
                     XCTAssertEqual(profile.email, "Tyler.Keith.Thompson@gmail.com")
                     XCTAssertEqual(profile.dateOfBirth, DateFormatter("yyyy-MM-dd'T'HH:mm:ss").date(from: "1990-03-26T00:00:00"))
@@ -147,7 +147,7 @@ extension IdentityServiceTests {
         {
             "self": {
                 "firstName": "Joe",
-                "lastName": "Zztest",
+                "lastName": "Blow",
                 "preferredName": "Zarathustra, Maestro of Madness",
                 "email": "Tyler.Keith.Thompson@gmail.com",
                 "dateOfBirth": "1990-03-26T00:00:00",

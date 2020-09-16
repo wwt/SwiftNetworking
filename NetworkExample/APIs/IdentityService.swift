@@ -33,7 +33,7 @@ extension IdentityServiceProtocol {
             .eraseToAnyPublisher()
     }
     
-    var refresh:URLSession.ErasedDataTaskPublisher {
+    private var refresh:URLSession.ErasedDataTaskPublisher {
         post(endpoint: "/auth/refresh", body: try? JSONSerialization.data(withJSONObject: ["refreshToken":User.refreshToken], options: []), requestModifier: {
             $0.acceptJSON()
                 .sendJSON()
@@ -51,12 +51,10 @@ extension IdentityServiceProtocol {
 
 extension API {
     struct IdentityService: IdentityServiceProtocol {
-        var urlSession: URLSession = URLSession.shared
-    }
-}
+        enum FetchProfileError: Error {
+            case apiBorked
+        }
 
-extension API.IdentityService {
-    enum FetchProfileError: Error {
-        case apiBorked
+        var urlSession: URLSession = URLSession.shared
     }
 }

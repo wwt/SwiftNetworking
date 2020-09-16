@@ -26,7 +26,8 @@ class ProfileViewController {
         }.store(in: &currentNetworkCalls)
     }
     
-    func viewWillDissapear() {
+    func viewWillDisappear() {
+        currentNetworkCalls.forEach { $0.cancel() }
         currentNetworkCalls.removeAll() //destroy any ongoing calls if the screen is transitioning
     }
 }

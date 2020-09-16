@@ -15,7 +15,7 @@ class UserProfileTests: XCTestCase {
     func testProfileDecodedFromJSON() throws {
         let profile = try JSONDecoder().decode(User.Profile.self, from: validProfileJSON)
         XCTAssertEqual(profile.firstName, "Joe")
-        XCTAssertEqual(profile.lastName, "Zztest")
+        XCTAssertEqual(profile.lastName, "Blow")
         XCTAssertEqual(profile.preferredName, "Zarathustra, Maestro of Madness")
         XCTAssertEqual(profile.email, "Tyler.Keith.Thompson@gmail.com")
         XCTAssertEqual(profile.dateOfBirth, DateFormatter("yyyy-MM-dd'T'HH:mm:ss").date(from: "1990-03-26T00:00:00"))
@@ -96,7 +96,7 @@ extension UserProfileTests {
         {
             "self": {
                 "firstName": "Joe",
-                "lastName": "Zztest",
+                "lastName": "Blow",
                 "preferredName": "Zarathustra, Maestro of Madness",
                 "email": "Tyler.Keith.Thompson@gmail.com",
                 "dateOfBirth": "1990-03-26T00:00:00",
