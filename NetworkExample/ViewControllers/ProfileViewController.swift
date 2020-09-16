@@ -16,18 +16,13 @@ class ProfileViewController {
     
     var nameLabelText:String = ""
     
-    var currentNetworkCalls = Set<AnyCancellable>()
+    var currentNetworkCalls = Set<AnyCancellable>() //these get cleaned up when the ViewController does, canceling all network calls along the way
     
     func fetchProfile() {
-        identityService?.fetchProfile.sink {
-            if case .success(let profile) = $0 {
-                self.nameLabelText = profile.firstName
+        identityService?.fetchProfile.sink { [weak self] result in
+            if case .success(let profile) = result {
+                self?.nameLabelText = profile.firstName
             }
         }.store(in: &currentNetworkCalls)
-    }
-    
-    func viewWillDisappear() {
-        currentNetworkCalls.forEach { $0.cancel() }
-        currentNetworkCalls.removeAll() //destroy any ongoing calls if the screen is transitioning
     }
 }
