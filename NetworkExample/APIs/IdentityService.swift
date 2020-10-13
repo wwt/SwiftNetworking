@@ -54,7 +54,5 @@ extension API {
         enum FetchProfileError: Error {
             case apiBorked
         }
-        
-        var urlSession: URLSession = URLSession.shared
     }
 }

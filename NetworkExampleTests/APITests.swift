@@ -15,7 +15,6 @@ import Combine
 extension API {
     struct JSONPlaceHolder: RESTAPIProtocol {
         var baseURL: String = "https://jsonplaceholder.typicode.com"
-        var urlSession: URLSession = URLSession.shared
     }
 }
 
@@ -60,10 +59,7 @@ class APITests:XCTestCase {
     }
     
     func testAPIThrowsErrorWhenGETtingWithInvalidURL() {
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = []
-        
-        var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
+        var api = API.JSONPlaceHolder()
         api.baseURL = "FA KE"
         
         var GETFinished = false
@@ -111,10 +107,7 @@ class APITests:XCTestCase {
     }
     
     func testAPIThrowsErrorWhenPOSTtingWithInvalidURL() {
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = []
-        
-        var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
+        var api = API.JSONPlaceHolder()
         api.baseURL = "FA KE"
         
         var POSTFinished = false
@@ -162,10 +155,7 @@ class APITests:XCTestCase {
     }
     
     func testAPIThrowsErrorWhenPUTtingWithInvalidURL() {
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = []
-        
-        var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
+        var api = API.JSONPlaceHolder()
         api.baseURL = "FA KE"
         
         var PUTFinished = false
@@ -213,10 +203,7 @@ class APITests:XCTestCase {
     }
     
     func testAPIThrowsErrorWhenPATCHingWithInvalidURL() {
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = []
-        
-        var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
+        var api = API.JSONPlaceHolder()
         api.baseURL = "FA KE"
         
         var PATCHFinished = false
@@ -258,10 +245,7 @@ class APITests:XCTestCase {
     }
     
     func testAPIThrowsErrorWhenDELETEingWithInvalidURL() {
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = []
-        
-        var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
+        var api = API.JSONPlaceHolder()
         api.baseURL = "FA KE"
         
         var DELETEFinished = false
