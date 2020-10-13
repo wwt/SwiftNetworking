@@ -38,11 +38,11 @@ class APITests:XCTestCase {
             },
         ]
         """.data(using: .utf8)!
-        let response = StubAPIResponse(request: .init(.get, urlString: "https://jsonplaceholder.typicode.com/posts"),
-                                       statusCode: 200,
-                                       result: .success(json))
+        StubAPIResponse(request: .init(.get, urlString: "https://jsonplaceholder.typicode.com/posts"),
+                        statusCode: 200,
+                        result: .success(json))
         
-        let api = API.JSONPlaceHolder(urlSession: response.session)
+        let api = API.JSONPlaceHolder()
         
         var GETFinished = false
         api.get(endpoint: "posts")
@@ -61,7 +61,7 @@ class APITests:XCTestCase {
     
     func testAPIThrowsErrorWhenGETtingWithInvalidURL() {
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [NetworkRequestCapturer.self]
+        config.protocolClasses = []
         
         var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
         api.baseURL = "FA KE"
@@ -84,16 +84,16 @@ class APITests:XCTestCase {
     func testAPIMakesAPOSTRequest() {
         let json = UUID().uuidString.data(using: .utf8)!
         let sentBody = try? JSONSerialization.data(withJSONObject: ["" : ""], options: [])
-        let response = StubAPIResponse(request: .init(.post,
-                                                      urlString: "https://jsonplaceholder.typicode.com/posts"),
-                                       statusCode: 201,
-                                       result: .success(json))
+        StubAPIResponse(request: .init(.post,
+                                       urlString: "https://jsonplaceholder.typicode.com/posts"),
+                        statusCode: 201,
+                        result: .success(json))
             .thenVerifyRequest { request in
                 XCTAssertEqual(request.httpMethod, "POST")
                 XCTAssertEqual(request.bodySteamAsData(), sentBody)
             }
         
-        let api = API.JSONPlaceHolder(urlSession: response.session)
+        let api = API.JSONPlaceHolder()
         
         var POSTFinished = false
         api.post(endpoint: "posts", body: sentBody)
@@ -112,7 +112,7 @@ class APITests:XCTestCase {
     
     func testAPIThrowsErrorWhenPOSTtingWithInvalidURL() {
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [NetworkRequestCapturer.self]
+        config.protocolClasses = []
         
         var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
         api.baseURL = "FA KE"
@@ -135,16 +135,16 @@ class APITests:XCTestCase {
     func testAPIMakesAPUTRequest() {
         let json = UUID().uuidString.data(using: .utf8)!
         let sentBody = try? JSONSerialization.data(withJSONObject: ["" : ""], options: [])
-        let response = StubAPIResponse(request: .init(.put,
-                                                      urlString: "https://jsonplaceholder.typicode.com/posts/1"),
-                                       statusCode: 200,
-                                       result: .success(json))
+        StubAPIResponse(request: .init(.put,
+                                       urlString: "https://jsonplaceholder.typicode.com/posts/1"),
+                        statusCode: 200,
+                        result: .success(json))
             .thenVerifyRequest { request in
                 XCTAssertEqual(request.httpMethod, "PUT")
                 XCTAssertEqual(request.bodySteamAsData(), sentBody)
             }
-
-        let api = API.JSONPlaceHolder(urlSession: response.session)
+        
+        let api = API.JSONPlaceHolder()
         
         var PUTFinished = false
         api.put(endpoint: "posts/1", body: sentBody)
@@ -163,7 +163,7 @@ class APITests:XCTestCase {
     
     func testAPIThrowsErrorWhenPUTtingWithInvalidURL() {
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [NetworkRequestCapturer.self]
+        config.protocolClasses = []
         
         var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
         api.baseURL = "FA KE"
@@ -186,16 +186,16 @@ class APITests:XCTestCase {
     func testAPIMakesAPATCHRequest() {
         let json = UUID().uuidString.data(using: .utf8)!
         let sentBody = try? JSONSerialization.data(withJSONObject: ["" : ""], options: [])
-        let response = StubAPIResponse(request: .init(.patch,
-                                                      urlString: "https://jsonplaceholder.typicode.com/posts/1"),
-                                       statusCode: 200,
-                                       result: .success(json))
+        StubAPIResponse(request: .init(.patch,
+                                       urlString: "https://jsonplaceholder.typicode.com/posts/1"),
+                        statusCode: 200,
+                        result: .success(json))
             .thenVerifyRequest { request in
                 XCTAssertEqual(request.httpMethod, "PATCH")
                 XCTAssertEqual(request.bodySteamAsData(), sentBody)
             }
-
-        let api = API.JSONPlaceHolder(urlSession: response.session)
+        
+        let api = API.JSONPlaceHolder()
         
         var PATCHFinished = false
         api.patch(endpoint: "posts/1", body: sentBody)
@@ -214,7 +214,7 @@ class APITests:XCTestCase {
     
     func testAPIThrowsErrorWhenPATCHingWithInvalidURL() {
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [NetworkRequestCapturer.self]
+        config.protocolClasses = []
         
         var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
         api.baseURL = "FA KE"
@@ -236,11 +236,11 @@ class APITests:XCTestCase {
     
     func testAPIMakesADELETERequest() {
         let json = UUID().uuidString.data(using: .utf8)!
-        let response = StubAPIResponse(request: .init(.delete, urlString: "https://jsonplaceholder.typicode.com/posts/1"),
-                                       statusCode: 200,
-                                       result: .success(json))
+        StubAPIResponse(request: .init(.delete, urlString: "https://jsonplaceholder.typicode.com/posts/1"),
+                        statusCode: 200,
+                        result: .success(json))
         
-        let api = API.JSONPlaceHolder(urlSession: response.session)
+        let api = API.JSONPlaceHolder()
         
         var DELETEFinished = false
         api.delete(endpoint: "posts/1")
@@ -259,7 +259,7 @@ class APITests:XCTestCase {
     
     func testAPIThrowsErrorWhenDELETEingWithInvalidURL() {
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [NetworkRequestCapturer.self]
+        config.protocolClasses = []
         
         var api = API.JSONPlaceHolder(urlSession: URLSession(configuration: config))
         api.baseURL = "FA KE"

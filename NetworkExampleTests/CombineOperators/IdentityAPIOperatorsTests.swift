@@ -53,9 +53,9 @@ class IdentityAPIOperatorsTests: XCTestCase {
         }
         """.data(using: .utf8)!
         let baseURL = "https://www.google.com"
-        let res = StubAPIResponse(request: .init(.get, urlString: baseURL + "/get"), statusCode: 200, result: .success(json), headers: nil)
+        StubAPIResponse(request: .init(.get, urlString: baseURL + "/get"), statusCode: 200, result: .success(json), headers: nil)
         
-        let api = API.JSONPlaceHolder(baseURL: baseURL, urlSession: res.session)
+        let api = API.JSONPlaceHolder(baseURL: baseURL)
         
         var called = 0
         api.get(endpoint: "get")
@@ -87,10 +87,10 @@ class IdentityAPIOperatorsTests: XCTestCase {
         }
         """.data(using: .utf8)!
         let baseURL = "https://www.google.com"
-        let res = StubAPIResponse(request: .init(.get, urlString: baseURL + "/get"), statusCode: 200, result: .success(json), headers: nil)
+        StubAPIResponse(request: .init(.get, urlString: baseURL + "/get"), statusCode: 200, result: .success(json), headers: nil)
             .thenRespondWith(request: .init(.get, urlString: baseURL + "/get"), statusCode: 200, result: .success(Data("".utf8)), headers: nil)
         
-        let api = API.JSONPlaceHolder(baseURL: baseURL, urlSession: res.session)
+        let api = API.JSONPlaceHolder(baseURL: baseURL)
         
         var called = 0
         var finishCalled = false
@@ -117,10 +117,10 @@ class IdentityAPIOperatorsTests: XCTestCase {
     
     func testRetryOnceOnUnauthorizedResponse_RetriesRequestWhenItGetsA401_AndSucceedsIfTheFirstCallCanBeCompletedSuccessfully() {
         let baseURL = "https://www.google.com"
-        let res = StubAPIResponse(request: .init(.get, urlString: baseURL + "/get"), statusCode: 401)
+        StubAPIResponse(request: .init(.get, urlString: baseURL + "/get"), statusCode: 401)
             .thenRespondWith(request: .init(.get, urlString: baseURL + "/get"), statusCode: 200, result: .success(Data("".utf8)))
         
-        let api = API.JSONPlaceHolder(baseURL: baseURL, urlSession: res.session)
+        let api = API.JSONPlaceHolder(baseURL: baseURL)
         
         var called = 0
         var finishCalled = false

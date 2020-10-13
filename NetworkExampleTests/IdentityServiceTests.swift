@@ -25,11 +25,11 @@ class IdentityServiceTests: XCTestCase {
     }
     
     func testProfileIsFetchedFromAPI() {
-        let response = StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
-                                       statusCode: 200,
-                                       result: .success(validProfileJSON.data(using: .utf8)!))
+        StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
+                        statusCode: 200,
+                        result: .success(validProfileJSON.data(using: .utf8)!))
         
-        let api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService()
         
         var called = false
         api.fetchProfile.sink { (result) in
@@ -57,11 +57,11 @@ class IdentityServiceTests: XCTestCase {
     }
     
     func testFetchProfileThrowsAPIBorkedError() {
-        let response = StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
-                                       statusCode: 200,
-                                       result: .success(Data("Invalid".utf8)))
+        StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
+                        statusCode: 200,
+                        result: .success(Data("Invalid".utf8)))
         
-        let api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService()
         
         var called = false
         api.fetchProfile.sink { (result) in
@@ -78,8 +78,8 @@ class IdentityServiceTests: XCTestCase {
     }
     
     func testFetchProfileRetriesOnUnauthorizedResponse() {
-        let response = StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
-                                       statusCode: 401)
+        StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
+                        statusCode: 401)
             .thenRespondWith(request: .init(.post,
                                             urlString: "\(API.IdentityService().baseURL)/auth/refresh"),
                              statusCode: 200,
@@ -97,8 +97,8 @@ class IdentityServiceTests: XCTestCase {
                 XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
                 XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(User.accessToken)")
             }
-
-        let api = API.IdentityService(urlSession: response.session)
+        
+        let api = API.IdentityService()
         
         var called = false
         api.fetchProfile.sink { (result) in
@@ -115,8 +115,8 @@ class IdentityServiceTests: XCTestCase {
     }
     
     func testFetchProfileFailsOnUnauthorizedResponseIfRefreshFails() {
-        let response = StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
-                                       statusCode: 401)
+        StubAPIResponse(request: .init(.get, urlString: "\(API.IdentityService().baseURL)/me"),
+                        statusCode: 401)
             .thenRespondWith(request: .init(.post, urlString: "\(API.IdentityService().baseURL)/auth/refresh"),
                              statusCode: 200,
                              result: .success(Data("".utf8)))
@@ -124,7 +124,7 @@ class IdentityServiceTests: XCTestCase {
                              statusCode: 200,
                              result: .success(validProfileJSON.data(using: .utf8)!))
         
-        let api = API.IdentityService(urlSession: response.session)
+        let api = API.IdentityService()
         
         var called = false
         api.fetchProfile.sink { (result) in

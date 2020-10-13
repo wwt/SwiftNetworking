@@ -13,6 +13,7 @@ target 'NetworkExample' do
   target 'NetworkExampleTests' do
     shared_pods
     pod 'Cuckoo'
+    pod 'OHHTTPStubs/Swift'
     pod 'Fakery'
   end
 
