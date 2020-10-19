@@ -86,7 +86,7 @@ class RetryOnTests:XCTestCase {
             .tryMap { _ -> Int in
                 throw Err.e1
             }.mapError { $0 as! Err}
-            .retryOn(Err.e1, retries: 1, chainedRequest: refresh)
+            .retryOn(Err.e1, retries: 1, chainedPublisher: refresh)
             .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
             .store(in: &subscribers)
         

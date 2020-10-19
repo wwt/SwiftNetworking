@@ -20,9 +20,9 @@ extension IdentityServiceProtocol {
     
     var fetchProfile: AnyPublisher<Result<User.Profile, API.IdentityService.FetchProfileError>, Never> {
         self.get(endpoint: "/me", requestModifier: {
-            $0.addBearerAuthorization(token: User.accessToken)
-                .acceptJSON()
-                .sendJSON()
+            $0.addingBearerAuthorization(token: User.accessToken)
+                .acceptingJSON()
+                .sendingJSON()
         }).retryOnceOnUnauthorizedResponse(chainedRequest: refresh)
         .unwrapResultJSONFromAPI()
         .map { $0.data }
@@ -35,8 +35,8 @@ extension IdentityServiceProtocol {
     
     private var refresh:URLSession.ErasedDataTaskPublisher {
         post(endpoint: "/auth/refresh", body: try? JSONSerialization.data(withJSONObject: ["refreshToken":User.refreshToken], options: []), requestModifier: {
-            $0.acceptJSON()
-                .sendJSON()
+            $0.acceptingJSON()
+                .sendingJSON()
         }).unwrapResultJSONFromAPI()
         .tryMap { v -> URLSession.ErasedDataTaskPublisher.Output in
             let json = try? JSONSerialization.jsonObject(with: v.data, options: []) as? [String:Any]

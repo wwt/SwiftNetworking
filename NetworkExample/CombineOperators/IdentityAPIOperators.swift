@@ -10,7 +10,6 @@ import Foundation
 import Combine
 
 extension URLSession.ErasedDataTaskPublisher {
-    
     func retryOnceOnUnauthorizedResponse(chainedRequest:AnyPublisher<Output, Error>? = nil) -> AnyPublisher<Output, Error> {
         tryMap { data, response -> URLSession.ErasedDataTaskPublisher.Output in
             if let res = response as? HTTPURLResponse,
@@ -24,7 +23,7 @@ extension URLSession.ErasedDataTaskPublisher {
             }
             return (data:data, response:response)
         }
-        .retryOn(API.AuthorizationError.unauthorized, retries: 1, chainedRequest: chainedRequest)
+        .retryOn(API.AuthorizationError.unauthorized, retries: 1, chainedPublisher: chainedRequest)
         .eraseToAnyPublisher()
     }
     

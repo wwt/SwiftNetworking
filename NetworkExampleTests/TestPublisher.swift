@@ -10,7 +10,6 @@ import Foundation
 import Combine
 
 public class TestPublisher<Output, Failure: Error>: Publisher {
-    
     let subscribeBody: (AnySubscriber<Output, Failure>) -> Void
     
     public init(_ subscribe: @escaping (AnySubscriber<Output, Failure>) -> Void) {

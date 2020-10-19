@@ -14,13 +14,13 @@ import XCTest
 class URLExtensionsTests:XCTestCase {
     func testAddingAcceptJSONToURLRequest() {
         let request = URLRequest(.get, urlString: "https://www.google.com")
-        XCTAssertEqual(request.acceptJSON().value(forHTTPHeaderField: "Accept"), "application/json")
+        XCTAssertEqual(request.acceptingJSON().value(forHTTPHeaderField: "Accept"), "application/json")
         XCTAssertNil(request.value(forHTTPHeaderField: "Accept"))
     }
     
     func testAddingContentTypeJSONToURLRequest() {
         let request = URLRequest(.get, urlString: "https://www.google.com")
-        XCTAssertEqual(request.sendJSON().value(forHTTPHeaderField: "Content-Type"), "application/json")
+        XCTAssertEqual(request.sendingJSON().value(forHTTPHeaderField: "Content-Type"), "application/json")
         XCTAssertNil(request.value(forHTTPHeaderField: "Content-Type"))
     }
 }

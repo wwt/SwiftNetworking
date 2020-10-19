@@ -67,9 +67,10 @@ extension RESTAPIProtocol {
     }
     
     func createPublisher(for request:URLRequest, requestModifier:@escaping RequestModifier) -> URLSession.ErasedDataTaskPublisher {
-        Just(request).setFailureType(to: Error.self)
-            .flatMap { request -> URLSession.ErasedDataTaskPublisher in
-                return self.urlSession.erasedDataTaskPublisher(for: requestModifier(request))
+        Just(request)
+            .setFailureType(to: Error.self)
+            .flatMap { [self] in
+                urlSession.erasedDataTaskPublisher(for: requestModifier($0))
             }.eraseToAnyPublisher()
     }
 }
