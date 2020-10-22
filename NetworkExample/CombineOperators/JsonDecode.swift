@@ -3,7 +3,7 @@
 //  NetworkExample
 //
 //  Created by Tyler Thompson on 4/3/20.
-//  Copyright © 2020 Tyler Thompson. All rights reserved.
+//  Copyright © 2020 World Wide Technology. All rights reserved..
 //
 
 import Foundation
